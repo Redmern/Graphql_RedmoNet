@@ -3,10 +3,10 @@ const { ApolloServer, gql } = require('apollo-server');
 const typeDefs = gql`
 
 	type User {
-		userId: ID
-		userName: String
-		userAmount: Float
-		userShare: Float
+		Id: ID
+		Name: String
+		Amount: Float
+		Share: Float
 
 	}
 	type Query {
@@ -17,16 +17,16 @@ const typeDefs = gql`
 
 const users = [
 	{
-		userId: 0,
-		userName: "Admin",
-		userAmount: 0,
-		userShare: 100,
+		Id: 0,
+		Name: "Admin",
+		Amount: 0,
+		Share: 100,
 	},
 	{
-		userId: 1,
-		userName: "Redmer",
-		userAmount: 0,
-		userShare: 100,
+		Id: 1,
+		Name: "Redmer",
+		Amount: 0,
+		Share: 100,
 	}
 ];
 
