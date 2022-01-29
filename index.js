@@ -2,7 +2,7 @@ const { ApolloServer, gql } = require('apollo-server');
 
 const userAccounts = require('./userAccounts');
 
-let userIDCount = 1
+let userIDCount = (userAccounts.length - 1)
 
 const typeDefs = gql`
 
@@ -33,7 +33,7 @@ const typeDefs = gql`
 	}
 
 	type Mutation {
-		addFundsToUserAccount(id: ID!, amount: Float!): UserAccount
+		addFundsToUserAccount(id: ID!, amount: Float): UserAccount
 	}
 
 `
@@ -48,15 +48,12 @@ const resolvers = {
 		},
 
 		userAccountById: async (_, {id}) => {
-
 			return await userAccounts.find( UserAccount => UserAccount.id == id)
 		},
 
 		adminAccount: async (_, {id}) => {
-
 			return await userAccounts.find( UserAccount => UserAccount.id == "0")
-		}
-		
+		}		
 	},
 
 	Mutation: {
@@ -82,14 +79,31 @@ const resolvers = {
 
 			const userAccount = await  userAccounts.find( UserAccount => UserAccount.id == id)
 			const adminAccount = await  userAccounts.find( UserAccount => UserAccount.id == "0")
-
-			userAccount.amount += amount;
-			adminAccount.amount += amount;
 			
+			const funds = parseFloat(amount.toFixed(2))
+
+			console.log(funds);
+
+			const newFunds = userAccount.amount + funds 
+
+			if ((newFunds) > 0) {
+				console.log(newFunds);
+				userAccount.amount += funds;
+				console.log(userAccount.amount);	
+				
+			}
+
+			if((newFunds) == 0){
+				console.log(newFunds);
+				userAccount.amount = 0
+				console.log(userAccount.amount);	
+			}
+
+			adminAccount.amount += funds;
+
 			userAccounts.forEach(userAccount => {
 				if (userAccount.id != "0") {
-					newShare = (userAccount.amount / adminAccount.amount) * 100
-					console.log(newShare);
+					newShare = parseFloat(((userAccount.amount / adminAccount.amount) * 100).toFixed(2)) 
 					userAccount.share = newShare
 				}
 			});

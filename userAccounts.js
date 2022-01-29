@@ -10,6 +10,12 @@ const userAccounts = [
 		name: "Redmer",
 		amount: 0,
 		share: 0,
+	},
+	{
+		id: 2,
+		name: "Nynke & Mike",
+		amount: 0,
+		share: 0,
 	}
 ];
 
